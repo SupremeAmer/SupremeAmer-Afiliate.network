@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Wallet | SupremeAmer</title>
+  <link rel="stylesheet" href="styles/main.css"/>
+  <link rel="stylesheet" href="styles/wallet.css"/>
+  <link rel="stylesheet" href="styles/animations.css"/>
+</head>
+<body>
+  <header>
+    <div class="logo">SupremeAmer</div>
+    <div id="user-profile-wallet">
+      <img id="profile-pic-wallet" src="assets/images/default-avatar.png" alt="Avatar"/>
+      <span id="username-wallet"></span>
+    </div>
+  </header>
+  <main>
+    <section class="wallet-section">
+      <div id="wallet-ui">
+        <!-- Wallet UI rendered here by wallet.js -->
+      </div>
+      <div class="wallet-actions">
+        <button id="fund-wallet-btn" class="gradient-btn">Fund Wallet</button>
+        <button id="withdraw-wallet-btn" class="gradient-btn">Withdraw $SA</button>
+      </div>
+      <div class="wallet-history-section fadein">
+        <h3>Transaction History</h3>
+        <div id="wallet-history-list">
+          <!-- Transactions rendered here (from localStorage) -->
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="js/wallet.js"></script>
+  <script type="module" src="components/footer.js"></script>
+</body>
+</html>

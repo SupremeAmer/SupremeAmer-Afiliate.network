@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Login | SupremeAmer</title>
+  <link rel="stylesheet" href="styles/main.css"/>
+  <link rel="stylesheet" href="styles/animations.css"/>
+</head>
+<body class="login-bg">
+  <div class="login-container fadein">
+    <h2>Welcome to SupremeAmer</h2>
+    <form id="login-form">
+      <input type="email" id="email" placeholder="Email" required autocomplete="username"/>
+      <input type="password" id="password" placeholder="Password" required autocomplete="current-password"/>
+      <button type="submit" class="gradient-btn">Login</button>
+    </form>
+    <div class="divider">OR</div>
+    <button id="wallet-login" class="wallet-btn">
+      <img src="assets/icons/metamask.svg" alt="MetaMask" width="20" /> Login with MetaMask
+    </button>
+    <p class="signup-link">Don't have an account? <a href="#" id="register-link">Register</a></p>
+  </div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
