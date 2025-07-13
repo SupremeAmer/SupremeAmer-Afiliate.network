@@ -1,6 +1,3 @@
-// Profile, avatar, referral, anti-fraud (IP check)
-// You would call this after user logs in
-
 export async function setupUserProfile(account, databases) {
   const user = await account.get();
   document.getElementById('username').textContent = user.name || user.email;
