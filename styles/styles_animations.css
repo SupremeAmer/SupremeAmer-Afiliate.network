@@ -1,0 +1,41 @@
+.fadein {
+  animation: fadeIn 1s;
+}
+.slidein {
+  animation: slideInLeft 0.7s;
+}
+.bounce {
+  animation: bounce 1s infinite alternate;
+}
+.pulse {
+  animation: pulse 2s infinite;
+}
+.slideup {
+  animation: slideUp 0.6s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 #f9a82699;}
+  70% { box-shadow: 0 0 0 12px #f9a82600;}
+  100% { box-shadow: 0 0 0 0 #f9a82600;}
+}
+@keyframes slideUp {
+  from { transform: translateY(60px); opacity: 0;}
+  to { transform: translateY(0); opacity: 1;}
+}
+@keyframes fadeInUp {
+  from { transform: translateY(32px); opacity: 0;}
+  to { transform: translateY(0); opacity: 1;}
+}

@@ -1,0 +1,21 @@
+.support-section {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 2rem;
+}
+.platform-info, .contact-info, .legal-info {
+  margin-bottom: 2rem;
+}
+h2, h3 {
+  color: var(--accent);
+}
+a {
+  color: #ffd700;
+  text-decoration: underline;
+}
+a:hover {
+  color: var(--accent);
+}

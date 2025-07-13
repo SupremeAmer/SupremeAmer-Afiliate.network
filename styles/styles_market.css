@@ -1,0 +1,37 @@
+.market-upload-section {
+  background: var(--card);
+  padding: 2rem;
+  border-radius: 16px;
+  margin: 2rem auto 1rem auto;
+  max-width: 480px;
+  box-shadow: var(--shadow);
+}
+.market-upload-section h2 {
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+#upload-form input,
+#upload-form textarea,
+#upload-form select {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background: #232f41;
+  color: #fff;
+  font-size: 1rem;
+}
+.market-adverts-section {
+  margin: 2rem auto;
+  max-width: 700px;
+}
+#market-adverts-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.info-msg {
+  color: #ffd700;
+  margin-bottom: 1rem;
+}
