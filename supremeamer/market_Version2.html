@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Market | SupremeAmer</title>
+  <link rel="stylesheet" href="styles/main.css"/>
+  <link rel="stylesheet" href="styles/market.css"/>
+  <link rel="stylesheet" href="styles/animations.css"/>
+</head>
+<body>
+  <header>
+    <div class="logo">SupremeAmer</div>
+    <div id="user-profile-market">
+      <img id="profile-pic-market" src="assets/images/default-avatar.png" alt="Avatar"/>
+      <span id="username-market"></span>
+    </div>
+  </header>
+  <main>
+    <section class="market-upload-section fadein">
+      <h2>Upload Advert/Task</h2>
+      <form id="upload-form" enctype="multipart/form-data">
+        <input type="text" id="advert-title" placeholder="Title" required/>
+        <textarea id="advert-content" placeholder="Describe your advert/task..." required></textarea>
+        <select id="advert-category" required>
+          <option value="">Select Category</option>
+          <option value="crypto">Crypto</option>
+          <option value="video">Video/Image Content</option>
+          <option value="referral">Referral</option>
+          <option value="social">Social</option>
+        </select>
+        <input type="number" id="advert-reward" placeholder="Reward per user (500-1000 $SA)" min="500" max="1000" required/>
+        <input type="number" id="advert-reach" placeholder="Minimum Reach (1000)" min="1000" required/>
+        <input type="file" id="advert-file" accept=".png,.jpg,.jpeg,.pdf"/>
+        <div class="info-msg">
+          Upload fee: <b>0.001 BNB</b> (Connect wallet to pay)
+        </div>
+        <button type="submit" class="gradient-btn">Upload Advert</button>
+      </form>
+    </section>
+    <section class="market-adverts-section slidein">
+      <h2>Market Adverts</h2>
+      <div id="market-adverts-feed">
+        <!-- Adverts rendered here -->
+      </div>
+    </section>
+  </main>
+  <div id="modal-root"></div>
+  <script type="module" src="js/market.js"></script>
+  <script type="module" src="components/footer.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>SupremeAmer Affiliate Network</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/animations.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">SupremeAmer</div>
+    <div id="user-profile">
+      <img id="profile-pic" src="assets/images/default-avatar.png" alt="Avatar" />
+      <span id="username"></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="balance-section">
+      <div>
+        <span>Balance</span>
+        <span id="user-balance">$<span id="sa-balance">0</span> SA</span>
+        <button id="toggle-balance">👁️</button>
+      </div>
+      <div class="action-buttons">
+        <button id="fund-btn" class="bounce">Fund</button>
+        <button id="cashout-btn" class="pulse">Cashout</button>
+        <button id="history-btn" class="slidein">History</button>
+      </div>
+    </section>
+    <section id="advert-feed">
+      <!-- Adverts/Tasks rendered here -->
+    </section>
+  </main>
+
+  <div id="modal-root"></div>
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="components/footer.js"></script>
+</body>
+</html>
