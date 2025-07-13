@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wallet | SupremeAmer Affiliate Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.9.0/dist/ethers.umd.min.js"></script>
+  <style>
+    body { font-family: 'Inter', Arial, sans-serif; background: #f7f6fd; min-height: 100vh; margin: 0; }
+    .wallet-main {
+      max-width: 380px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 28px #7c43bd22;
+      padding: 2.3em 1.5em 1.5em 1.5em;
+      animation: fadeIn .8s;
+    }
+    .metamask-box {
+      margin: 0 auto 22px auto;
+      text-align: center;
+    }
+    .metamask-icon {
+      width: 72px;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 2px 16px #1a237e11);
+    }
+    .wallet-card {
+      background: linear-gradient(90deg,#4b0082 0%,#7c43bd 100%);
+      border-radius: 13px;
+      color: #fff;
+      padding: 1.5em 1.3em 1.1em 1.3em;
+      margin-bottom: 1.1em;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 3px 14px #4b00822a;
+      transition: box-shadow .2s;
+    }
+    .wallet-card.inactive {
+      filter: grayscale(.8) brightness(1.07);
+      opacity: .7;
+    }
+    .wallet-row {
+      display:flex;align-items:center;justify-content:space-between;margin: .14em 0;
+    }
+    .wallet-label { font-size: .98em; opacity: .8; letter-spacing: .03em; }
+    .wallet-value { font-size: 1.15em; font-weight: bold; letter-spacing:.02em;}
+    .connect-btn {
+      background: #f5f4fa;
+      color: #4b0082;
+      border: none;
+      border-radius: 8px;
+      padding: .95em 1.2em;
+      font-size: 1.06em;
+      font-weight: bold;
+      width: 100%;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .connect-btn:active { background: #7c43bd11; }
+    .disconnect-btn {
+      background: #e11d48;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: .7em 1.2em;
+      font-size: .98em;
+      font-weight: 600;
+      width: 100%;
+      margin-top: 7px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .disconnect-btn:active { background: #a21caf; }
+    .wallet-desc {
+      font-size: .95em;
+      color: #555;
+      margin: 1.6em 0 .4em 0;
+      text-align: center;
+    }
+    .wallet-network {
+      display: inline-flex;
+      align-items: center;
+      gap: .3em;
+      background: #f1f1fa;
+      color: #4b0082;
+      font-size: .92em;
+      padding: .28em .8em;
+      border-radius: 8px;
+      margin-top: 2px;
+    }
+    @media (max-width:500px) {
+      .wallet-main { padding: 1.2em .5em; min-width: 0; }
+      .wallet-card { padding: 1em .6em;}
+      .metamask-icon { width: 54px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wallet-main">
+    <div class="metamask-box">
+      <img src="https://raw.githubusercontent.com/MetaMask/brand-resources/master/SVG/metamask-fox.svg" alt="MetaMask" class="metamask-icon" />
+      <div class="font-bold text-lg" style="color:#4b0082;">SupremeAmer Wallet</div>
+    </div>
+    <div id="walletCard" class="wallet-card inactive">
+      <div class="wallet-row">
+        <div class="wallet-label">Address:</div>
+        <div class="wallet-value" id="walletAddress">Not connected</div>
+      </div>
+      <div class="wallet-row">
+        <div class="wallet-label">BNB Balance:</div>
+        <div class="wallet-value" id="walletBNB">-</div>
+      </div>
+      <div class="wallet-row">
+        <div class="wallet-label">$SA Balance:</div>
+        <div class="wallet-value" id="walletSA">-</div>
+      </div>
+      <div class="wallet-row">
+        <div class="wallet-label">Network:</div>
+        <span class="wallet-network" id="walletNetwork">-</span>
+      </div>
+    </div>
+    <button id="connectWalletBtn" class="connect-btn">Connect MetaMask</button>
+    <button id="disconnectWalletBtn" class="disconnect-btn" style="display:none;">Disconnect</button>
+    <div class="wallet-desc">Connect your wallet to access funding, withdrawals, and marketplace features. Your assets are always in your control.</div>
+    <div class="wallet-desc" style="color:#e11d48;display:none;" id="walletError"></div>
+    <div style="margin-top:1.5em;text-align:center;">
+      <a href="index.html" style="color:#4b0082;font-size:.98em;text-decoration:underline;">&larr; Back to Home</a>
+    </div>
+  </div>
+  <script>
+    // Wallet logic (MetaMask style)
+    let provider, signer, currentAddress;
+    const tokenAddress = "0xYourSupremeAmerBnbTokenAddress"; // Set your contract
+    const tokenAbi = [
+      "function balanceOf(address owner) view returns (uint256)",
+      "function decimals() view returns (uint8)"
+    ];
+    const walletCard = document.getElementById('walletCard');
+    const connectBtn = document.getElementById('connectWalletBtn');
+    const disconnectBtn = document.getElementById('disconnectWalletBtn');
+    const walletError = document.getElementById('walletError');
+
+    function updateInactiveUI() {
+      walletCard.classList.add('inactive');
+      document.getElementById('walletAddress').textContent = "Not connected";
+      document.getElementById('walletBNB').textContent = "-";
+      document.getElementById('walletSA').textContent = "-";
+      document.getElementById('walletNetwork').textContent = "-";
+      connectBtn.style.display = '';
+      disconnectBtn.style.display = 'none';
+    }
+    function updateActiveUI(address, bnb, sa, network) {
+      walletCard.classList.remove('inactive');
+      document.getElementById('walletAddress').textContent = address ? address.substring(0,6)+"..."+address.substring(address.length-4) : "-";
+      document.getElementById('walletBNB').textContent = bnb;
+      document.getElementById('walletSA').textContent = sa;
+      document.getElementById('walletNetwork').textContent = network;
+      connectBtn.style.display = 'none';
+      disconnectBtn.style.display = '';
+    }
+    updateInactiveUI();
+
+    connectBtn.onclick = async () => {
+      walletError.style.display = "none";
+      if (!window.ethereum) {
+        walletError.textContent = "MetaMask or compatible wallet not found.";
+        walletError.style.display = "";
+        return;
+      }
+      provider = new ethers.BrowserProvider(window.ethereum);
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      signer = await provider.getSigner();
+      currentAddress = await signer.getAddress();
+      // Get balances
+      const bnb = ethers.formatEther(await provider.getBalance(currentAddress));
+      let sa = "-";
+      let network = (await provider.getNetwork()).name;
+      try {
+        const contract = new ethers.Contract(tokenAddress, tokenAbi, provider);
+        const bal = await contract.balanceOf(currentAddress);
+        const dec = await contract.decimals();
+        sa = ethers.formatUnits(bal, dec) + " $SA";
+      } catch {}
+      updateActiveUI(currentAddress, Number(bnb).toFixed(4)+" BNB", sa, network);
+    };
+    disconnectBtn.onclick = () => {
+      provider = signer = currentAddress = null;
+      updateInactiveUI();
+    };
+  </script>
+</body>
+</html>
